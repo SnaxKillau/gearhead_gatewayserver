@@ -1,0 +1,52 @@
+server:
+  port : 8072
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: swiggy-app
+          uri: lb://SWIGGY-APP
+          predicates:
+            - Path=/swiggy/**
+          filters:
+            - AuthenticationFilter
+        - id: identity-service
+          uri: lb://IDENTITY-SERVICE
+          predicates:
+            - Path=/auth/**
+
+        - id: product
+          uri: lb://PRODUCT
+          predicates:
+            - Path=/**
+          filters:
+            - name: AuthenticationFilter
+              args:
+                securedRoutes:
+                  - "/api/color/admin"
+                  - "/api/brand/admin"
+                requiredRole: "ADMIN"
+
+  application:
+    name: SWIGGY-GATEWAY
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+info:
+  app:
+    name: GearHead Online SHop
+    description: This project is about online shop with micorservice
+    version: 1.0.0
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  info:
+    env:
+      enabled: true
