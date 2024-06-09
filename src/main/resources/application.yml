@@ -25,6 +25,10 @@ spring:
                 securedRoutes:
                   - "/api/color/admin"
                   - "/api/brand/admin"
+                  - "/api/condition/admin"
+                  - "/api/order/admin"
+                  - "/api/transformation/admin"
+                  - "/api/transmission/admin"
                 requiredRole: "ADMIN"
 
   application:
